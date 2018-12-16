@@ -1,4 +1,5 @@
 require "specify_html_reporter/version"
+require "specify_html_reporter/example"
 
 require "rspec/core/formatters/base_formatter"
 
@@ -39,17 +40,17 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
 
   def example_passed(notification)
     @group_example_success_count += 1
-    @examples << notification.example
+    @examples << Example.new(notification.example)
   end
 
   def example_failed(notification)
     @group_example_failure_count += 1
-    @examples << notification.example
+    @examples << Example.new(notification.example)
   end
 
   def example_pending(notification)
     @group_example_pending_count += 1
-    @examples << notification.example
+    @examples << Example.new(notification.example)
   end
 
   private
