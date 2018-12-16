@@ -19,6 +19,7 @@ namespace :spec do
   RSpec::Core::RakeTask.new(all: :clean) do |config|
     options  = %w[--color]
     options += %w[--format documentation]
+    options += %w[--format SpecifyHtmlReport]
     options += %w[--format html --out spec/reports/test-report.html]
 
     config.rspec_opts = options
