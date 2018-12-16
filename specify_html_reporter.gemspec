@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "rspec-core"
+  spec.add_runtime_dependency "activesupport"
 end
