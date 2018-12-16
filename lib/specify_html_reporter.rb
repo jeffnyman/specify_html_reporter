@@ -19,6 +19,7 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   def example_group_started(_notification)
     return unless @group_level.zero?
 
+    @examples = []
     @group_example_count = 0
     @group_example_success_count = 0
     @group_example_failure_count = 0
@@ -36,16 +37,19 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     @group_example_count += 1
   end
 
-  def example_passed(_notification)
+  def example_passed(notification)
     @group_example_success_count += 1
+    @examples << notification.example
   end
 
-  def example_failed(_notification)
+  def example_failed(notification)
     @group_example_failure_count += 1
+    @examples << notification.example
   end
 
-  def example_pending(_notification)
+  def example_pending(notification)
     @group_example_pending_count += 1
+    @examples << notification.example
   end
 
   private
