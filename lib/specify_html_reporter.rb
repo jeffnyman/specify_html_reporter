@@ -97,6 +97,8 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     report_results
     report_durations
 
+    Example.load_spec_comments!(@examples)
+
     status_values = @examples.map(&:status)
 
     status =

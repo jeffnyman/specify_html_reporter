@@ -85,6 +85,14 @@
                     <h3 class="panel-title pull-left"> <%= example.example_title %></h3>
                     <div class="clearfix"></div>
                   </div>
+
+                  <% if example.comment? %>
+                  <div class="panel-body"><%= example.comment %></div>
+                  <% end %>
+
+                  <% if example.spec? %>
+                  <div class="panel-body"><pre><%= example.spec %></pre></div>
+                  <% end %>
                 </div>
               </div>
               <div>
