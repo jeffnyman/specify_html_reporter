@@ -38,6 +38,7 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     return unless @group_level.zero?
 
     group_file = notification.group.description.parameterize
+    @title = notification.group.description
 
     File.open("#{REPORT_PATH}/#{group_file}.html", "w") do |f|
       construct_report_file(notification)
