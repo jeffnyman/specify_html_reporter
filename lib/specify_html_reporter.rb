@@ -6,6 +6,7 @@ require "specify_html_reporter/example"
 
 require "rspec/core/formatters/base_formatter"
 
+# rubocop:disable Metrics/ClassLength
 class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   ::RSpec::Core::Formatters.register self,
     :example_group_started, :example_group_finished, :example_started,
@@ -40,6 +41,8 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     group_file = notification.group.description.parameterize
 
     File.open("#{REPORT_PATH}/#{group_file}.html", "w") do |f|
+      construct_report_file(notification)
+
       report_file = File.read(
         File.dirname(__FILE__) + "/../templates/report.erb"
       )
@@ -85,6 +88,59 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   end
 
   private
+
+  def construct_report_file(notification)
+    report_results
+    report_durations
+
+    status_values = @examples.map(&:status)
+
+    status =
+      if status_values.include?('failed')
+        'failed'
+      elsif status_values.include?('passed')
+        'passed'
+      else
+        'pending'
+      end
+
+    build_group_collection(notification, status, status_values)
+  end
+
+  def report_results
+    @passed = @group_example_success_count
+    @failed = @group_example_failure_count
+    @pending = @group_example_pending_count
+  end
+
+  def report_durations
+    duration_values = @examples.map(&:run_time)
+    duration_keys = duration_values.size.times.to_a
+
+    @durations = duration_keys.zip(duration_values)
+
+    @summary_duration = duration_values
+                        .inject(0) { |sum, i| sum + i }
+                        .to_s(:rounded, precision: 5)
+  end
+
+  def build_group_collection(notification, status, status_values)
+    type_class_map = {
+      passed: 'success',
+      failed: 'danger',
+      pending: 'warning'
+    }
+
+    @group_collection[notification.group.description.parameterize] = {
+      group: notification.group.description,
+      status: status,
+      status_type: type_class_map[status.to_sym],
+      passed: status_values.select { |s| s == 'passed' },
+      failed: status_values.select { |s| s == 'failed' },
+      pending: status_values.select { |s| s == 'pending' },
+      duration: @summary_duration
+    }
+  end
 
   def overview_results
     overview_results_passed
@@ -135,3 +191,4 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

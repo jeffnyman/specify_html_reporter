@@ -67,3 +67,7 @@ Metrics/ParameterLists:
 # Remove execute permissions check.
 Lint/ScriptPermission:
   Enabled: false
+
+# Specify HTML Reporter Additions
+Metrics/AbcSize:
+  Max: 17
