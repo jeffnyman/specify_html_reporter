@@ -29,9 +29,14 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     @group_level += 1
   end
 
-  def example_group_finished(_notification)
+  def example_group_finished(notification)
     @group_level -= 1
     return unless @group_level.zero?
+
+    group_file = notification.group.description.parameterize
+
+    File.open("#{REPORT_PATH}/#{group_file}.html", "w") do |f|
+    end
   end
 
   def example_started(_notification)
@@ -51,6 +56,11 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   def example_pending(notification)
     @group_example_pending_count += 1
     @examples << Example.new(notification.example)
+  end
+
+  def close(_notification)
+    File.open("#{REPORT_PATH}/overview.html", "w") do |f|
+    end
   end
 
   private
