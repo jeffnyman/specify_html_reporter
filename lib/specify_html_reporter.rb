@@ -11,7 +11,11 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     :example_group_started, :example_group_finished, :example_started,
     :example_passed, :example_failed, :example_pending
 
-  REPORT_PATH = ENV['REPORT_PATH'] || 'reports'
+  DEFAULT_REPORT_PATH = File.join(
+    '.', 'reports', Time.now.strftime('%Y%m%d-%H%M%S')
+  )
+
+  REPORT_PATH = ENV['REPORT_PATH'] || DEFAULT_REPORT_PATH
 
   def initialize(_output)
     create_report_directory
