@@ -70,4 +70,4 @@ Lint/ScriptPermission:
 
 # Specify HTML Reporter Additions
 Metrics/AbcSize:
-  Max: 17
+  Max: 18

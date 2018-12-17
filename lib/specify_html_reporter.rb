@@ -1,5 +1,4 @@
 require "erb"
-require "rouge"
 require "fileutils"
 require "specify_html_reporter/version"
 require "specify_html_reporter/example"
