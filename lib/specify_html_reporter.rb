@@ -71,6 +71,11 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     File.open("#{REPORT_PATH}/overview.html", "w") do |f|
       @overview = @group_collection
 
+      overview_results
+      overview_durations
+
+      @total_examples = @passed + @failed + @pending
+
       overview_file = File.read(
         File.dirname(__FILE__) + "/../templates/overview.erb"
       )
@@ -80,6 +85,44 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   end
 
   private
+
+  def overview_results
+    overview_results_passed
+    overview_results_failed
+    overview_results_pending
+  end
+
+  def overview_results_passed
+    @passed = @overview.values
+                       .map { |g| g[:passed].size }
+                       .inject(0) { |sum, i| sum + i }
+  end
+
+  def overview_results_failed
+    @failed = @overview.values
+                       .map { |g| g[:failed].size }
+                       .inject(0) { |sum, i| sum + i }
+  end
+
+  def overview_results_pending
+    @pending = @overview.values
+                        .map { |g| g[:pending].size }
+                        .inject(0) { |sum, i| sum + i }
+  end
+
+  def overview_durations
+    duration_values = @overview.values.map { |e| e[:duration] }
+    duration_keys = duration_values.size.times.to_a
+
+    @durations = duration_keys.zip(
+      duration_values.map { |d| d.to_f.round(5) }
+    )
+
+    @summary_duration = duration_values
+                        .map { |d| d.to_f.round(5) }
+                        .inject(0) { |sum, i| sum + i }
+                        .to_s(:rounded, precision: 5)
+  end
 
   def create_report_directory
     FileUtils.rm_rf(REPORT_PATH) if File.exist?(REPORT_PATH)
