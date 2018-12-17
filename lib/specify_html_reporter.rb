@@ -1,3 +1,6 @@
+require "erb"
+require "rouge"
+require "fileutils"
 require "specify_html_reporter/version"
 require "specify_html_reporter/example"
 
@@ -37,6 +40,11 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     group_file = notification.group.description.parameterize
 
     File.open("#{REPORT_PATH}/#{group_file}.html", "w") do |f|
+      report_file = File.read(
+        File.dirname(__FILE__) + "/../templates/report.erb"
+      )
+
+      f.puts ERB.new(report_file).result(binding)
     end
   end
 
@@ -62,6 +70,12 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   def close(_notification)
     File.open("#{REPORT_PATH}/overview.html", "w") do |f|
       @overview = @group_collection
+
+      overview_file = File.read(
+        File.dirname(__FILE__) + "/../templates/overview.erb"
+      )
+
+      f.puts ERB.new(overview_file).result(binding)
     end
   end
 
