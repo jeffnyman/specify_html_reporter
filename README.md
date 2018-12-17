@@ -1,5 +1,9 @@
 # Specify HTML Reporter
 
+This gem provides a custom formatter for RSpec execution that generates an HTML-based repository of results files.
+
+While this projet was designed to augment my [Specify](https://github.com/jeffnyman/specify) tool, it will generate reports for any RSpec execution.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -28,7 +32,21 @@ $ gem install specify_html_reporter
 
 ## Usage
 
-Instructions coming soon.
+The usage is fairly simple and follows the standard pattern you would use for any RSpec formatter. Make sure to require the gem in your `spec_helper.rb` file:
+
+```ruby
+require "specify_html_reporter"
+```
+
+Then, in your `.rspec` file, make sure the following line is in place:
+
+```ruby
+--format SpecifyHtmlReport
+```
+
+If you aren't using an `.rspec` file, just provide `--format SpecifyHtmlReport` as part of your `rspec` execution command.
+
+With the above being done, upon execution of your RSpec suite, you should get a directory called `reports` and within that you'll find an `overview.html` file that serves as the entry point for all reporting. Each spec file is given its own report format and is linked to from the overview file.
 
 ## Development
 
