@@ -14,6 +14,7 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
     create_report_directory
     provide_report_resources
 
+    @group_collection = {}
     @group_level = 0
   end
 
@@ -60,6 +61,7 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
 
   def close(_notification)
     File.open("#{REPORT_PATH}/overview.html", "w") do |f|
+      @overview = @group_collection
     end
   end
 
