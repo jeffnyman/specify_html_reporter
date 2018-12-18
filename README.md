@@ -53,6 +53,12 @@ If you aren't using an `.rspec` file, just provide `--format SpecifyHtmlReport` 
 
 With the above being done, upon execution of your RSpec suite, you should get a directory called `reports` and within that you'll find an `overview.html` file that serves as the entry point for all reporting. Each spec file is given its own report format and is linked to from the overview file.
 
+It is possible to include comments within the reports. See the [comment test](https://github.com/jeffnyman/specify_html_reporter/blob/master/spec/specify_html_reporter/comment_spec.rb) to see how to add comment metadata.
+
+You can also include inline specifications, which are effectively special comments that get inserted into the reports. See the [inline test](https://github.com/jeffnyman/specify_html_reporter/blob/master/spec/specify_html_reporter/inline_spec.rb) to see how to add these.
+
+It is also possible to embed resources, such as screen grabs and video records, into a report. See the [embedding test](https://github.com/jeffnyman/specify_html_reporter/blob/master/spec/specify_html_reporter/embedding_spec.rb) to see how metadata is used to achieve this effect.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rake spec:all` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -85,3 +91,7 @@ To contribute to Specify HTML Reporter:
 
 Specify HTML Reporter is distributed under the [MIT](http://www.opensource.org/licenses/MIT) license.
 See the [LICENSE](https://github.com/jeffnyman/specify_html_reporter/blob/master/LICENSE.md) file for details.
+
+## Credits
+
+This gem is based on original work in [kingsleyh/rspec_reports_formatter](https://github.com/kingsleyh/rspec_reports_formatter) and the modifications provided by [vbanthia/rspec_html_reporter](https://github.com/vbanthia/rspec_html_reporter). The rationale for a new project rather than a fork is I wanted to significantly clean up the code to follow better practices, including fixing a lot of issues with the HTML in the report. Also I plan on extending this very specifically to work with my [Specify](https://github.com/jeffnyman/specify) gem.
