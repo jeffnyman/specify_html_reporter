@@ -6,7 +6,7 @@ require "specify_html_reporter/problem"
 
 class Example
   attr_reader :duration, :status, :run_time, :exception, :file_path,
-    :metadata, :spec
+    :metadata, :spec, :screen_grab, :video_record
 
   def initialize(example)
     @spec = nil
@@ -39,6 +39,14 @@ class Example
 
   def spec?
     !@spec.nil?
+  end
+
+  def screen_grab?
+    !@screen_grab.nil? && !@screen_grab.empty?
+  end
+
+  def video_record?
+    !@video_record.nil?
   end
 
   def comment
@@ -102,6 +110,8 @@ class Example
   def setup_metadata
     @file_path = @metadata[:file_path]
     @comment = @metadata[:comment]
+    @screen_grab = @metadata[:screen_grab]
+    @video_record = @metadata[:video_record]
   end
 
   def setup_exception

@@ -16,9 +16,13 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   )
 
   REPORT_PATH = ENV['REPORT_PATH'] || DEFAULT_REPORT_PATH
+  SCREEN_GRAB_PATH = File.join(REPORT_PATH, 'screen_grabs')
+  VIDEO_RECORD_PATH = File.join(REPORT_PATH, 'video_records')
 
   def initialize(_output)
     create_report_directory
+    create_screen_grabs_directory
+    create_video_records_directory
     provide_report_resources
 
     @group_collection = {}
@@ -189,6 +193,14 @@ class SpecifyHtmlReport < RSpec::Core::Formatters::BaseFormatter
   def create_report_directory
     FileUtils.rm_rf(REPORT_PATH) if File.exist?(REPORT_PATH)
     FileUtils.mkpath(REPORT_PATH)
+  end
+
+  def create_screen_grabs_directory
+    FileUtils.mkdir_p SCREEN_GRAB_PATH unless File.exist?(SCREEN_GRAB_PATH)
+  end
+
+  def create_video_records_directory
+    FileUtils.mkdir_p VIDEO_RECORD_PATH unless File.exist?(VIDEO_RECORD_PATH)
   end
 
   def provide_report_resources

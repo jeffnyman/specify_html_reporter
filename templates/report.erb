@@ -22,6 +22,10 @@
       font-size: 14px;
     }
 
+    .spacer {
+      margin-left: 10px;
+    }
+
     <%= Rouge::Themes::Github.render(:scope => '.highlight') %>
   </style>
 </head>
@@ -83,6 +87,12 @@
                 <div class="panel <%= example.result_type('panel-') %>">
                   <div class="panel-heading">
                     <h3 class="panel-title pull-left"> <%= example.example_title %></h3>
+                    <% if example.screen_grab? %>
+                    <a href="#example_<%= i+1 %>" class="btn btn-xs btn-default spacer pull-right" onclick="toggler('screen_grab_<%= i+1 %>');">Screen Grabs</a>
+                    <% end %>
+                    <% if example.video_record? %>
+                    <a href="#example_<%= i+1 %>" class="btn btn-xs btn-default spacer pull-right" onclick="toggler('video_record_<%= i+1 %>');">Video Records</a>
+                    <% end %>
                     <div class="clearfix"></div>
                   </div>
 
@@ -90,8 +100,43 @@
                   <div class="panel-body"><%= example.comment %></div>
                   <% end %>
 
+                  <% if example.spec? or example.screen_grab? or example.video_record? %>
+
+                  <!-- SPEC BLOCK -->
                   <% if example.spec? %>
                   <div class="panel-body"><pre><%= example.spec %></pre></div>
+                  <% end %>
+
+                  <!-- SCREEN GRAB BLOCK -->
+                  <% if example.screen_grab? %>
+                  <div id="screen_grab_<%= i+1 %>" class="panel-body" style="display:none">
+                    <% example.screen_grab.each do |image| %>
+                    <div class="col-md-4">
+                      <div class="thumbnail">
+                        <a href=<%= image[:path] %> target="_blank">
+                          <img src=<%= image[:path] %> alt="Screen Grab" style="width:50%,height:50%">
+                          <div class="caption">
+                            <p><%= image[:caption] %></p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <% end %>
+                  </div>
+                  <% end %>
+
+                  <!-- VIDEO RECORD BLOCK -->
+                  <% if example.video_record? %>
+                  <div id="video_record_<%= i+1 %>" class="panel-body" style="display:none">
+                    <div class="col-md-4">
+                      <video controls width="250">
+                        <source src=<%= example.video_record %> type="video/mp4">
+                        Your browser does not support HTML 5 video.
+                      </video>
+                    </div>
+                  </div>
+                  <% end %>
+
                   <% end %>
                 </div>
               </div>
@@ -132,6 +177,10 @@
   </div>
 </div>
 <script type="text/javascript">
+  function toggler(divId) {
+    $("#" + divId).slideToggle();
+  };
+
   var pieCtx = document.getElementById("report_chart");
 
   var pieChart = new Chart(pieCtx, {
