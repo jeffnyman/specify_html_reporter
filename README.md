@@ -1,5 +1,10 @@
 # Specify HTML Reporter
 
+[![Gem Version](https://badge.fury.io/rb/specify_html_reporter.svg)](http://badge.fury.io/rb/specify_html_reporter)
+[![Build Status](https://travis-ci.org/jeffnyman/specify_html_reporter.svg)](https://travis-ci.org/jeffnyman/specify_html_reporter)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jeffnyman/specify_html_reporter/blob/master/LICENSE.md)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3a112fb395c56c961d87/maintainability)](https://codeclimate.com/github/jeffnyman/specify_html_reporter/maintainability)
+
 This gem provides a custom formatter for RSpec execution that generates an HTML-based repository of results files.
 
 While this projet was designed to augment my [Specify](https://github.com/jeffnyman/specify) tool, it will generate reports for any RSpec execution.
